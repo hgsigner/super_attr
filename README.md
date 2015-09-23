@@ -1,28 +1,29 @@
 # SuperAttr
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/super_attr`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'super_attr'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install super_attr
+SuperAttr is an implementation of attr_accessor on steroires. It sets the name of the attribute, as well as its type and if it is required or not.
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'super_attr'
+
+class Klass
+	include SuperAttr::Attr
+
+	super_attr :my_int, type: Integer, required: true
+	super_attr :my_string, type: String, required: true
+	super_attr :my_hash, type: Hash
+
+	def initialize(args={})
+		Klass.init_super_attrs(args, self)
+	end
+end
+
+k = Klass.new(my_int: 20, my_string: "foo", my_hash: {name: "foo"})
+k.my_int    # returns 20, assuring that the result is an Integer
+k.my_string # returns foo, assuring that the result is a String
+k.my_hash   # returns {name: "foo"}, assuring that the result is a Hash
+```
 
 ## Development
 
@@ -32,7 +33,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/super_attr. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hgsigner/super_attr. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License

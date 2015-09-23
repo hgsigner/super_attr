@@ -7,6 +7,9 @@ module SuperAttr
 
 		module AttrBase
 
+			# Initializes the array that will 
+			# receive the required attributes,
+			# as they are initialized.
 			@@required_attrs = []
 
 			# super_attr accpects the attr name and a hash
@@ -20,6 +23,9 @@ module SuperAttr
 
 				# Defines setter
 				define_method("#{name}=") do |arg|
+					# If the arg is a kind of opts[:type]
+					# it sets the value, otherwise, it will
+					# raise a StandardError.
 					if arg.is_a? opts[:type]
 						instance_variable_set("@#{name}", arg)
 					else
@@ -27,10 +33,17 @@ module SuperAttr
 					end
 				end
 
+				# If the attribute is required, it will
+				# push its name to the @@required_attrs array
 				@@required_attrs << name if opts.has_key?(:required) && opts[:required]
 
 			end
 
+			# Initializes the arguments passed through the
+			# initialize method in the Class where the
+			# SuperAttr::Attr module was included.
+			# It receives the initialization arguments
+			# and an instance of the newly created class (self).
 			def init_super_attrs(args={}, inst)
 				args_keys = args.keys
 
@@ -51,7 +64,8 @@ module SuperAttr
 
 				end
 				
-				# Inits the args
+				# Inits the arguments passed via the
+				# initilize method.
 				args_keys.each {|key| self.instance_method("#{key}=").bind(inst).call(args[key]) }
 			end
 

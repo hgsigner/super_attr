@@ -8,15 +8,14 @@ describe "SuperAttr:Attr" do
 
 		super_attr :my_int, type: Integer, required: true 
 
-		# def initialize(args={})
-		# 	my_int = args[:my_int]
-		# end
+		def initialize(args={})
+			@my_int = args[:my_int]
+		end
 
 	end
 
 	it "set the wrong type for attr" do
-		t = Thing.new()
-		err = -> {t.my_int = "foo"}.must_raise StandardError
+		err = -> { Thing.new(my_int: "foo") }.must_raise StandardError
 		err.message.must_equal 'The value for my_int is not a type Integer'
 	end
 

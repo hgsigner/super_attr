@@ -1,11 +1,23 @@
 require 'test_helper'
+require 'super_attr/attr'
 
-class SuperAttrTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::SuperAttr::VERSION
-  end
+describe "SuperAttr:Attr" do
 
-  def test_it_does_something_useful
-    assert false
-  end
+	class Thing
+		include SuperAttr::Attr
+
+		super_attr :my_int, type: Integer, required: true 
+
+		# def initialize(args={})
+		# 	my_int = args[:my_int]
+		# end
+
+	end
+
+	it "set the wrong type for attr" do
+		t = Thing.new()
+		err = -> {t.my_int = "foo"}.must_raise StandardError
+		err.message.must_equal 'The value for my_int is not a type Integer'
+	end
+
 end

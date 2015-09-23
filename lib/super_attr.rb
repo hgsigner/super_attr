@@ -1,5 +1,5 @@
 require "super_attr/version"
+require "super_attr/attr"
 
 module SuperAttr
-  # Your code goes here...
 end
